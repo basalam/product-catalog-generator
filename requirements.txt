@@ -1,0 +1,10 @@
+transformers
+datasets
+peft
+huggingface_hub
+trl
+accelerate
+pandas
+torch
+tqdm
+vllm
