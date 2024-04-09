@@ -30,17 +30,6 @@ def get_chunked(iterable, chunk_size, _type):
         dict(itertools.islice(iterable.items(), x, x + chunk_size)) for x in range(0, len(iterable), chunk_size)]
 
 
-# def clean_text(text):
-#     text = text.replace('_', ' ')
-#     text = text.replace('#', '')
-#     pattern = re.compile(r'[^\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u200c\u200d0-9a-zA-Z\s\.]+')
-#     cleaned_text = re.sub(pattern, '', text)
-#     cleaned_text = cleaned_text.replace('\u200c', ' ')
-#     return cleaned_text
-#
-#
-# import re
-
 def clean_text(text):
     text = text.replace('_', ' ')
     text = text.replace('#', '')

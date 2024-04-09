@@ -8,7 +8,6 @@ from datasets import load_from_disk
 from tqdm import tqdm
 from transformers import AutoTokenizer
 from transformers import AutoModelForCausalLM
-from connections.google_sheet import GoogleSheet
 from utility.clean_gpu import clear_hardwares
 from utility.preprocess import get_chunked
 from datetime import datetime
@@ -92,12 +91,6 @@ def extract_json_objects(text, decoder=JSONDecoder()):
         except ValueError:
             pos = match + 1
     return results
-
-
-def to_sheet(df, tab_name):
-    gs = GoogleSheet('Zero-Shot-CLS')
-    gs.set_worksheet(tab_name=tab_name)
-    gs.write_data(df, row=1, col=1)
 
 
 def run():

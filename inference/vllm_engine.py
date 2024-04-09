@@ -3,9 +3,10 @@ from vllm import LLM, SamplingParams
 from inference.config import config
 from huggingface_hub import login
 
-login(token='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')
+login(token='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')
 
 prompt = """### Question: here is a product title from a Iranian marketplace.  \n         give me the Product Entity and Attributes of this product in Persian language.\n         give the output in this json format: {'attributes': {'attribute_name' : <attribute value>, ...}, 'product_entity': '<product entity>'}.\n         Don't make assumptions about what values to plug into json. Just give Json not a single word more.\n         \nproduct title:"""
+
 
 # enforce_eager=True
 llm = LLM(model=config.hf_model, gpu_memory_utilization=0.9, trust_remote_code=True)
@@ -35,7 +36,7 @@ def processed_catalog(catalog):
     if isinstance(catalog, list):
         if len(catalog) == 1:
             catalog_content = get_attributes_entity(catalog[0])
-        elif len(catalog) >= 2:  # 5%
+        elif len(catalog) >= 2:
             content_list = [get_attributes_entity(i) for i in catalog]
             final_product_entity = None
             final_attributes = dict()
@@ -71,7 +72,6 @@ def extract_json_objects(text, decoder=JSONDecoder()):
 
 
 def inference_model(product_list: list, config):
-    # sampling_params = SamplingParams(temperature=0.0, max_tokens=int(max_tokens))
     sampling_params = SamplingParams(**config)
     if 'Question: here is a product title' in product_list[0]:
         prompts = product_list
