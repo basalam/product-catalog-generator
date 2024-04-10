@@ -3,26 +3,25 @@ from vllm import LLM, SamplingParams
 from inference.config import config
 from huggingface_hub import login
 
-login(token='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')
+login(token='')
 
 prompt = """### Question: here is a product title from a Iranian marketplace.  \n         give me the Product Entity and Attributes of this product in Persian language.\n         give the output in this json format: {'attributes': {'attribute_name' : <attribute value>, ...}, 'product_entity': '<product entity>'}.\n         Don't make assumptions about what values to plug into json. Just give Json not a single word more.\n         \nproduct title:"""
 
-# enforce_eager=True
-llm = LLM(model=config.hf_model, gpu_memory_utilization=0.9, trust_remote_code=True)
+llm = LLM(model='BaSalam/Llama2-7b-entity-attr-v1', gpu_memory_utilization=0.9, trust_remote_code=True)
 
 
 def get_attributes_entity(catalog):
     must_keys = ['attributes', 'product_entity']
     if isinstance(catalog, dict):
         keys = list(catalog.keys())
-        if keys == must_keys:  # 92.2 %
+        if keys == must_keys:
             attributes = catalog['attributes']
             product_entity = catalog['product_entity']
-        else:  # 2.4 %
+        else:
             attributes = catalog
             product_entity = None
         return {'attributes': attributes, 'product_entity': product_entity}
-    else:  # 5.4%
+    else:
         ds = {'attributes': list(), 'product_entity': list()}
         for cat in catalog:
             content = get_attributes_entity(cat)
@@ -72,12 +71,9 @@ def extract_json_objects(text, decoder=JSONDecoder()):
 
 def inference_model(product_list: list, config):
     sampling_params = SamplingParams(**config)
-    if 'Question: here is a product title' in product_list[0]:
-        prompts = product_list
-    else:
-        prompts = []
-        for product in product_list:
-            prompts.append(f'{prompt} {product}\n ### Answer:')
+    prompts = []
+    for product in product_list:
+        prompts.append(f'{prompt} {product}\n ### Answer:')
     outputs = llm.generate(prompts, sampling_params)
     results = list()
     for ind, output in enumerate(outputs):
