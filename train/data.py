@@ -1,11 +1,8 @@
-from datasets import load_from_disk
-import os
+from datasets import load_dataset
 
 
 def create_datasets():
-    current_directory = os.getcwd()
-    dataset_path = os.path.join(current_directory, 'entity_attribute_dataset')
-    dataset = load_from_disk(dataset_path)
+    dataset = load_dataset("BaSalam/entity-attribute-dataset-GPT-3.5-generated-v1")['train']
     other_columns = [i for i in dataset.column_names if i not in ['instruction', 'output', 'text']]
     dataset = dataset.remove_columns(other_columns)
     split_dataset = dataset.train_test_split(train_size=300001, seed=19, shuffle=False)

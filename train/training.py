@@ -27,7 +27,6 @@ def formatting_prompts_func(example):
 
 
 def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer, project_name):
-
     lora_config = LoraConfig(
         r=128,
         lora_alpha=256,
@@ -100,3 +99,4 @@ def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer
 
     print("Saving last checkpoint of the model")
     trainer.model.save_pretrained(os.path.join(output_dir, project_name))
+    trainer.push_to_hub('BaSalam/Llama2-7b-entity-attr-v1')
