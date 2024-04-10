@@ -1,13 +1,8 @@
 from json import JSONDecoder
 from vllm import LLM, SamplingParams
-from inference.config import config
 from huggingface_hub import login
 
 login(token='')
-
-prompt = """### Question: here is a product title from a Iranian marketplace.  \n         give me the Product Entity and Attributes of this product in Persian language.\n         give the output in this json format: {'attributes': {'attribute_name' : <attribute value>, ...}, 'product_entity': '<product entity>'}.\n         Don't make assumptions about what values to plug into json. Just give Json not a single word more.\n         \nproduct title:"""
-
-llm = LLM(model='BaSalam/Llama2-7b-entity-attr-v1', gpu_memory_utilization=0.9, trust_remote_code=True)
 
 
 def get_attributes_entity(catalog):
@@ -69,11 +64,18 @@ def extract_json_objects(text, decoder=JSONDecoder()):
     return results
 
 
-def inference_model(product_list: list, config):
-    sampling_params = SamplingParams(**config)
+def inference_model(product_list: list, generation_config, kwargs):
+    fine_tuned_model = kwargs.get('fine_tuned_model')
+    response_template = kwargs.get('response_template')
+    user_prompt_template = kwargs.get('user_prompt_template')
+    prompt = kwargs.get('prompt')
+
+    llm = LLM(model=fine_tuned_model, gpu_memory_utilization=0.9, trust_remote_code=True)
+
+    sampling_params = SamplingParams(**generation_config)
     prompts = []
     for product in product_list:
-        prompts.append(f'{prompt} {product}\n ### Answer:')
+        prompts.append(f'{user_prompt_template} {prompt}{product}\n {response_template}')
     outputs = llm.generate(prompts, sampling_params)
     results = list()
     for ind, output in enumerate(outputs):

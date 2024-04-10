@@ -1,8 +1,10 @@
-import os
 from accelerate import Accelerator
 from peft import LoraConfig
 from transformers import AutoModelForCausalLM, TrainingArguments, BitsAndBytesConfig
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
+from transformers import AutoTokenizer
+from peft import PeftModel
+from utility.clean_gpu import clear_hardwares
 
 
 def print_trainable_parameters(model):
@@ -17,19 +19,31 @@ def print_trainable_parameters(model):
     )
 
 
-def formatting_prompts_func(example):
-    output_texts = []
-    for i in range(len(example['instruction'])):
-        out = example['output'][i]
-        text = f"### Question: {example['instruction'][i]}\n ### Answer: {out}"
-        output_texts.append(text)
-    return output_texts
+def run_training(train_data, val_data, **kwargs):
+    base_model = kwargs.get('base_model')
+    rank = kwargs.get('rank')
+    project_name = kwargs.get('project_name')
+    num_epochs = kwargs.get('num_epochs')
+    batch_size = kwargs.get('batch_size')
+    learning_rate = kwargs.get('learning_rate')
+    response_template = kwargs.get('response_template')
+    user_prompt_template = kwargs.get('user_prompt_template')
 
+    tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path=base_model)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
+    tokenizer.padding_side = "right"
 
-def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer, project_name):
+    def formatting_prompts_func(example):
+        output_texts = []
+        for i in range(len(example['instruction'])):
+            out = example['output'][i]
+            text = f"{user_prompt_template}{example['instruction'][i]}\n{response_template} {out}"
+            output_texts.append(text)
+        return output_texts
+
     lora_config = LoraConfig(
-        r=128,
-        lora_alpha=256,
+        r=rank,
+        lora_alpha=rank * 2,
         lora_dropout=0.05,
         bias="none",
         target_modules=["q_proj", "v_proj", 'k_proj'],
@@ -39,19 +53,17 @@ def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer
     print("Starting main loop")
 
     training_args = TrainingArguments(
-        output_dir=output_dir,
+        output_dir=project_name,
         dataloader_drop_last=True,
         evaluation_strategy="steps",
-        num_train_epochs=2,
-        # max_steps=11625,
+        num_train_epochs=num_epochs,
         eval_steps=75000,
-        # dataloader_num_workers = 4,
         save_steps=0,
         logging_steps=30,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
+        per_device_train_batch_size=batch_size,
+        per_device_eval_batch_size=batch_size,
         # learning_rate=1.41e-5,
-        learning_rate=0.00015,
+        learning_rate=learning_rate,
         # lr_scheduler_type=lr_scheduler_type,
         warmup_steps=100,
         gradient_accumulation_steps=1,
@@ -67,13 +79,12 @@ def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer
         bnb_4bit_use_double_quant=False,
     )
 
-    model = AutoModelForCausalLM.from_pretrained(model_name_or_path,
+    model = AutoModelForCausalLM.from_pretrained(base_model,
                                                  quantization_config=bnb_config,
                                                  # load_in_8bit=True,
                                                  device_map={"": Accelerator().process_index})
     model.config.use_cache = False
 
-    response_template = " ### Answer:"
     response_template_ids = tokenizer.encode(response_template, add_special_tokens=False)[2:]
     collator = DataCollatorForCompletionOnlyLM(response_template_ids, tokenizer=tokenizer)
 
@@ -82,7 +93,6 @@ def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer
         model=model,
         args=training_args,
         tokenizer=tokenizer,
-        # dataset_text_field="text",
         formatting_func=formatting_prompts_func,
         data_collator=collator,
         train_dataset=train_data,
@@ -98,5 +108,11 @@ def run_training(output_dir, model_name_or_path, train_data, val_data, tokenizer
     trainer.train()
 
     print("Saving last checkpoint of the model")
-    trainer.model.save_pretrained(os.path.join(output_dir, project_name))
-    trainer.push_to_hub('BaSalam/Llama2-7b-entity-attr-v1')
+    trainer.model.save_pretrained(project_name)
+
+    model_to_merge = PeftModel.from_pretrained(model, project_name)
+    del model
+    clear_hardwares()
+    model = model_to_merge.merge_and_unload()
+
+    model.push_to_hub(f'BaSalam/{project_name}')
