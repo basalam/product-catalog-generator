@@ -109,10 +109,9 @@ def run_training(train_data, val_data, **kwargs):
 
     print("Saving last checkpoint of the model")
     trainer.model.save_pretrained(project_name)
-
+    # merge LoRa Adaptor with base model and push it in HF
     model_to_merge = PeftModel.from_pretrained(model, project_name)
     del model
     clear_hardwares()
     model = model_to_merge.merge_and_unload()
-
     model.push_to_hub(f'BaSalam/{project_name}')
