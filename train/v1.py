@@ -18,7 +18,7 @@ def main():
     parser.add_argument('--dataset_name_or_path', type=str, default='BaSalam/entity-attribute-dataset-GPT-3.5-generated-v1', help='The name or path of the dataset')
     parser.add_argument('--response_template', type=str, default=' ### Answer:', help='response template for LLM')
     parser.add_argument('--user_prompt_template', type=str, default='### Question: ', help='response template for LLM')
-    parser.add_argument('--percent_of_train_dataset', type=int, default=0.985, help='The percentage of the training dataset to be used for training.')
+    parser.add_argument('--percent_of_train_dataset', type=float, default=0.985, help='The percentage of the training dataset to be used for training.')
     parser.add_argument('--prompt', type=str,
                         default="""instruction': "here is a product title from a Iranian marketplace.  \n         give me the Product Entity and Attributes of this product in Persian language.\n         give the output in this json format: {'attributes': {'attribute_name' : <attribute value>, ...}, 'product_entity': '<product entity>'}.\n         Don't make assumptions about what values to plug into json. Just give Json not a single word more.\n         \nproduct title:""",
                         help='Our prompt')
