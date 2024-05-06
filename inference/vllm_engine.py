@@ -1,4 +1,4 @@
-from json import JSONDecoder
+from utility.postprocess import extract_json_objects
 from vllm import LLM, SamplingParams
 from huggingface_hub import login
 
@@ -46,22 +46,6 @@ def processed_catalog(catalog):
     elif isinstance(catalog, dict):
         catalog_content = get_attributes_entity(catalog)
         return catalog_content
-
-
-def extract_json_objects(text, decoder=JSONDecoder()):
-    results = []
-    pos = 0
-    while True:
-        match = text.find('{', pos)
-        if match == -1:
-            break
-        try:
-            result, index = decoder.raw_decode(text[match:])
-            results.append(result)
-            pos = match + index
-        except ValueError:
-            pos = match + 1
-    return results
 
 
 def inference_model(product_list: list, generation_config, kwargs):
