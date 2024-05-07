@@ -1,6 +1,6 @@
 class Config:
     def __init__(self,
-                 fine_tuned_model='Llama2-7b-entity-attr-v1',
+                 fine_tuned_model='BaSaLam/Llama2-7b-entity-attr-v1',
                  response_template=' ### Answer:',
                  user_prompt_template=  '### Question: ',
                  prompt = """instruction': "here is a product title from a Iranian marketplace.  \n         give me 
