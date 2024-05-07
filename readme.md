@@ -31,4 +31,20 @@ Medium story introducing problem and devised solution. [Medium story](https://me
 ## How to use
 
 
-**wrapper:**
+**Train:**
+
+For finetuning a new model you should set some parameters in **config** file (located at _BASE_DIR/configs/train/_).
+Base model is NousResearch/Llama-2-7b-chat-hf, but you may change it if you prefer, it is recommended to change Lora parameters accordingly. The other parameters are set based on the task and/or dataset.
+
+Start by running training_wrapper in train directory. Training process is as follows:
+1.  > Reading config from config file
+2.  > Loading dataset
+    > Dataset is loaded from hugging face (_create_datasets_ function)
+3.  > Running _run_training_ from training module 
+    1. > Config is read
+       > Model and tokenizer are loaded
+       > Training args are set
+       > Training begins
+       > After the last iteration model is saved (Merging Lora config with base model using **peft**)
+       > Pushing model to hub
+       > Finish!
