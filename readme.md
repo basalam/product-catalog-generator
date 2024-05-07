@@ -12,10 +12,10 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 
 ## Models
 
-### Sft model version 1 based on lama2 and GPT4 data.
+### Sft model version 1 based on llama 2 and GPT-3.5 data.
 [Model V1](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
 
-### V2 model
+### Sft model version 2 based on llama 2 and GPT-4 data.
 [Model V2](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2)
 
 ## Motivations
