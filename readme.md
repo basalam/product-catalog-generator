@@ -18,6 +18,14 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 ### Sft model version 2 based on llama 2 and GPT-4 data.
 [Model V2](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2)
 
+
+## Evaluation
+
+| model | train loss | val loss | download
+| --- | --- | --- | --- |
+| Model V1 | 1.0 | 1.297 | [Sft model version 1 based on llama 2 and GPT-3.5 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
+| Model V2 | 1.0 | 1.072 | [Sft model version 2 based on llama 2 and GPT-4 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2) |
+
 ## Motivations
 
 Problem definition and roadmap to solve it (in Persian). [Dropbox link](https://www.dropbox.com/scl/fi/xjr81mna7ae5tlwco461q/LLM.paper?rlkey=fpimc6mm2hqrke31t7bqs7e38&dl=0).
