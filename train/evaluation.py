@@ -55,7 +55,6 @@ def run(**kwargs):
 
 def main():
     parser = argparse.ArgumentParser()
-
     parser.add_argument('--fine_tuned_model', type=str, default='Llama2-7b-entity-attr-v1', help='The name of path of the base model')
     parser.add_argument('--dataset_name_or_path', type=str, default='BaSalam/entity-attribute-dataset-GPT-3.5-generated-v1', help='The name or path of the dataset')
     parser.add_argument('--response_template', type=str, default=' ### Answer:', help='response template for LLM')
