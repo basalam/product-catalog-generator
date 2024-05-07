@@ -16,8 +16,7 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 [Model V1](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
 
 ### V2 model
-
-Will be uploaded soon.
+[Model V2](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2)
 
 ## Motivations
 
