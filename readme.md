@@ -5,7 +5,10 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 
 ## Datasets
 
-[GPT4 generated product data](https://huggingface.co/datasets/BaSalam/entity-attribute-sft-dataset-GPT-4.0-generated-v1)
+### Dataset V1 generated using GPT-3.5
+[GPT-3.5 generated product data](https://huggingface.co/datasets/BaSalam/entity-attribute-dataset-GPT-3.5-generated-v1)
+### Dataset V2 generated using GPT-4
+[GPT-4 generated product data](https://huggingface.co/datasets/BaSalam/entity-attribute-sft-dataset-GPT-4.0-generated-v1)
 
 ## Models
 
@@ -28,8 +31,8 @@ Medium story introducing problem and devised solution. [Medium story](https://me
 
 **Train:**
 
-For finetuning a new model you should set some parameters in **[config](https://github.com/basalam/product-catalog-generator/blob/main/configs/train/config.py)** file (located at _BASE_DIR/configs/train/_).
-Base model is NousResearch/Llama-2-7b-chat-hf, but you may change it if you prefer, it is recommended to change Lora parameters accordingly. The other parameters are set based on the task and/or dataset.
+For finetuning a new model you should set some parameters in **[config](https://github.com/basalam/product-catalog-generator/blob/main/configs/train/config.py)** file (located at ````BASE_DIR/configs/train/````).
+Base model is ````NousResearch/Llama-2-7b-chat-hf````, but you may change it if you prefer, it is recommended to change Lora parameters accordingly. The other parameters are set based on the task and/or dataset.
 
 Start by running training_wrapper in train directory. Training process is as follows:
 1.  Reading config from config file
@@ -43,3 +46,15 @@ Start by running training_wrapper in train directory. Training process is as fol
     - After the last iteration model is saved (Merging Lora config with base model using **peft**)
     - Pushing model to hub
     - Finish!
+
+**Inference:**
+
+For inference we use llm inference engine [vllm](https://github.com/vllm-project/vllm).
+
+Inference config such as model, prompt and response templates are located at ````BASE_DIR/configs/inference/````.
+Start by running inference_wrapper in inference directory. The process is as follows:
+1.  Reading config from config file
+2.  Running _inference_model_ from **[vllm_engine](https://github.com/basalam/product-catalog-generator/blob/main/inference/vllm_engine.py)** module 
+    - Args is read
+    - LLM inference engine is built 
+    - For each sample input (prompt + input values (typically a product information)), a response is generated
