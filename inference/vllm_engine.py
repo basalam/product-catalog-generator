@@ -48,14 +48,12 @@ def processed_catalog(catalog):
         return catalog_content
 
 
-def inference_model(product_list: list, generation_config, kwargs):
-    fine_tuned_model = kwargs.get('fine_tuned_model')
-    response_template = kwargs.get('response_template')
-    user_prompt_template = kwargs.get('user_prompt_template')
-    prompt = kwargs.get('prompt')
-
+def inference_model(product_list: list, generation_config, args):
+    fine_tuned_model = args.fine_tuned_model
+    response_template = args.response_template
+    user_prompt_template = args.user_prompt_template
+    prompt = args.prompt
     llm = LLM(model=fine_tuned_model, gpu_memory_utilization=0.9, trust_remote_code=True)
-
     sampling_params = SamplingParams(**generation_config)
     prompts = []
     for product in product_list:

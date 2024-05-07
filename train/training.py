@@ -19,15 +19,15 @@ def print_trainable_parameters(model):
     )
 
 
-def run_training(train_data, val_data, **kwargs):
-    base_model = kwargs.get('base_model')
-    rank = kwargs.get('rank')
-    project_name = kwargs.get('project_name')
-    num_epochs = kwargs.get('num_epochs')
-    batch_size = kwargs.get('batch_size')
-    learning_rate = kwargs.get('learning_rate')
-    response_template = kwargs.get('response_template')
-    user_prompt_template = kwargs.get('user_prompt_template')
+def run_training(train_data, val_data, args):
+    base_model = args.base_model
+    rank = args.rank
+    project_name = args.project_name
+    num_epochs = args.num_epochs
+    batch_size = args.batch_size
+    learning_rate = args.learning_rate
+    response_template = args.response_template
+    user_prompt_template = args.user_prompt_template
 
     tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path=base_model)
     tokenizer.pad_token_id = tokenizer.eos_token_id
