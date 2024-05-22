@@ -9,6 +9,7 @@ from datasets import load_dataset
 import argparse
 
 
+
 def generate_batch(prompt: list, tokenizer, model, gen_kwargs: dict):
     batch = tokenizer(prompt, return_tensors='pt', padding=True)
     batch = {k: v.to('cuda') for k, v in batch.items()}
