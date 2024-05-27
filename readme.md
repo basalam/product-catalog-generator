@@ -41,7 +41,7 @@ Medium story introducing problem and devised solution. [Medium story](https://me
 To finetune a new model, you can either create a new YAML configuration file with your specific parameters or modify an existing one. You'll find example configuration files in the src/train/ directory (**[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v1.yaml), **[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v2.yaml)). The default base model is NousResearch/Llama-2-7b-chat-hf, but you are free to change it. It's advisable to adjust the LoRA parameters accordingly if you do. Tailor other parameters to the needs of your task and dataset.
 
 To initiate finetuning, navigate to the src directory and start the process with:
-bash
+
 python -m train.train_wrapper --version v1
 
 Here, --version v1 corresponds to the version of the finetuning configuration, which should match the name of your YAML file.
