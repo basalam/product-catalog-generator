@@ -38,21 +38,29 @@ Medium story introducing problem and devised solution. [Medium story](https://me
 
 **Train:**
 
-For finetuning a new model you should set some parameters in **[config](https://github.com/basalam/product-catalog-generator/blob/main/configs/train/config.py)** file (located at ````BASE_DIR/configs/train/````).
-Base model is ````NousResearch/Llama-2-7b-chat-hf````, but you may change it if you prefer, it is recommended to change Lora parameters accordingly. The other parameters are set based on the task and/or dataset.
+To finetune a new model, you can either create a new YAML configuration file with your specific parameters or modify an existing one. You'll find example configuration files in the src/train/ directory (**[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v1.yaml), **[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v2.yaml)). The default base model is NousResearch/Llama-2-7b-chat-hf, but you are free to change it. It's advisable to adjust the LoRA parameters accordingly if you do. Tailor other parameters to the needs of your task and dataset.
 
-Start by running training_wrapper in train directory. Training process is as follows:
-1.  Reading config from config file
-2.  Loading dataset
-    - Dataset is loaded from hugging face (_create_datasets_ function)
-3.  Running _run_training_ from **[training](https://github.com/basalam/product-catalog-generator/blob/main/train/training.py)** module 
-    - Config is read
-    - Model and tokenizer are loaded
-    - Training args are set
-    - Training begins
-    - After the last iteration model is saved (Merging Lora config with base model using **peft**)
-    - Pushing model to hub
-    - Finish!
+To initiate finetuning, navigate to the src directory and start the process with:
+bash
+python -m train.train_wrapper --version v1
+
+Here, --version v1 corresponds to the version of the finetuning configuration, which should match the name of your YAML file.
+
+The training process includes several steps:
+
+    1- Parameter Initialization: Loads parameters from the specified YAML file.
+    2- Dataset Loading:
+        - Retrieves the dataset from the Hugging Face hub using the _create_datasets_ function.
+    3- Training Execution: Handled by the _run_training_ method from the **[training_module](https://github.com/basalam/product-catalog-generator/blob/main/src/train/training.py):
+        - Initializes configuration settings.
+        - Prepares the model and tokenizer.
+        - Sets up training arguments.
+        - Begins the training cycle.
+        - After completing the last iteration, saves the model, merging LoRA configurations with the base model using peft.
+        - Uploads the trained model to the Hugging Face hub.
+        - Concludes the process!
+
+This structured approach ensures comprehensive management and execution of the model training process.
 
 **Inference:**
 
