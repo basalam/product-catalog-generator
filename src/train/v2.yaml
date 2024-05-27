@@ -1,0 +1,45 @@
+# Model specifications
+fine_tuning_version: '2.0'  # String: Version identifier for the fine-tuning process
+max_seq_length: 1024        # Integer: Maximum sequence length for model input
+dataset_name_or_path: "BaSalam/entity-attribute-sft-dataset-GPT-4.0-generated-v1"  # String: Path or identifier for the dataset
+model_name_or_path: "NousResearch/Llama-2-7b-chat-hf"  # String: Model identifier or path from Hugging Face Hub
+
+# Training configuration
+dataloader_drop_last: True             # Boolean: Whether to drop the last incomplete batch
+evaluation_strategy: "steps"           # String: Strategy to use for evaluating model performance
+learning_rate: 0.00017                 # Float: Initial learning rate for the optimizer
+per_device_train_batch_size: 8        # Integer: Training batch size per device
+per_device_eval_batch_size: 8         # Integer: Evaluation batch size per device
+gradient_accumulation_steps: 1         # Integer: Number of steps to accumulate gradients before updating model weights
+save_steps: 0                          # Integer: Number of steps between saving the model
+logging_steps: 10                      # Integer: Number of steps between logging training progress
+warmup_steps: 100                      # Integer: Number of steps to perform learning rate warmup
+num_train_epochs: 2                    # Integer: Total number of training epochs
+weight_decay: 0.01                     # Float: Weight decay coefficient for regularization
+eval_steps: 0.05                      # Integer: Number of steps between evaluations
+gradient_checkpointing: True           # Boolean: Whether to use gradient checkpointing to save memory
+fp16: False                            # Boolean: Whether to use 16-bit floating-point precision training
+bf16: False                            # Boolean: Whether to use bfloat16 precision training if supported
+logging_strategy: "steps"              # String: Determines how logging is handled
+logging_dir: "logs/Llama2-7b-entity-attr"  # String: Path to log directory
+
+# LoRA (Low-Rank Adaptation) specifications
+lora_bias: "none"                      # String: Specific bias configuration for LoRA layers; "none" indicates no bias
+lora_rank: 256                         # Integer: Rank for the low-rank matrices in LoRA layers
+lora_task_type: "CAUSAL_LM"            # String: Task type for LoRA configuration
+lora_dataloader_drop_last: True        # Boolean: Whether to drop the last incomplete batch for LoRA specific data
+lora_target_modules: ["q_proj", "v_proj", 'k_proj']              # List: Specific modules to target for LoRA adaptation, None applies to all eligible
+lora_dropout: 0.05                     # Float: Dropout rate for LoRA layers
+lora_alpha: 512                        # Integer: Alpha parameter controlling the scale of LoRA adaptation
+
+# BitsAndBytes specifications for quantization
+load_in_4bit: True                     # Boolean: Whether to load the model using 4-bit quantization
+bnb_4bit_quant_type: 'nf4'             # String: Type of 4-bit quantization
+bnb_4bit_compute_dtype: 'float16'      # String: Compute data type when using 4-bit quantization
+bnb_4bit_use_double_quant: False       # Boolean: Whether to use double quantization for increased precision
+
+# Tokenizer specifications
+response_template: "### Assistant:\n"      # String: Template for formatting the model's responses
+user_prompt_template: "### Human: " # String: Template for formatting the input prompts
+padding_side: "right"                  # String: Which side of the sequence to pad
+mlm: False                             # Boolean: Whether to use Masked Language Modeling (MLM)
