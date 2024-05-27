@@ -42,7 +42,7 @@ To finetune a new model, you can either create a new YAML configuration file wit
 
 To initiate finetuning, navigate to the src directory and start the process with:
 
-python -m train.train_wrapper --version v1
+    python -m train.train_wrapper --version v1
 
 Here, --version v1 corresponds to the version of the finetuning configuration, which should match the name of your YAML file.
 
