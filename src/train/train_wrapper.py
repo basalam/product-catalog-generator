@@ -11,7 +11,7 @@ import sys
 import yaml
 from transformers import set_seed
 
-from train.arguments.stf_arguments import SFTTrainArguments
+from train.arguments.sft_arguments import SFTTrainArguments
 from train.data import create_datasets
 from train.training import run_training
 
