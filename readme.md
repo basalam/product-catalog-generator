@@ -23,14 +23,12 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 
 | model | train loss | val loss | download
 | --- | --- | --- | --- |
-| Model V1 | 1.0 | 1.297 | [Sft model version 1 based on llama 2 and GPT-3.5 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
-| Model V2 | 1.0 | 1.072 | [Sft model version 2 based on llama 2 and GPT-4 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2) |
+| Model V1 | 0.07 | 0.08 | [Sft model version 1 based on llama 2 and GPT-3.5 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
+| Model V2 | 0.1 | 0.12 | [Sft model version 2 based on llama 2 and GPT-4 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2) |
 
 ## Motivations
 
-Problem definition and roadmap to solve it (in Persian). [Dropbox link](https://www.dropbox.com/scl/fi/xjr81mna7ae5tlwco461q/LLM.paper?rlkey=fpimc6mm2hqrke31t7bqs7e38&dl=0).
-
-Medium story introducing problem and devised solution. [Medium story](https://medium.com/p/72bf6abd22eb/) (in progress)
+Problem definition and roadmap to solve it (in Persian). [Virgool link](https://experience.basalam.com/%D9%85%D8%B3%D8%A7%D9%84%D9%87-%D8%AA%D8%B4%D8%AE%DB%8C%D8%B5-%D9%85%D8%AD%D8%B5%D9%88%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D8%B3%D9%84%D8%A7%D9%85-%DB%8C%DA%A9-%D8%AA%D8%AC%D8%B1%D8%A8%D9%87-%D8%B9%D9%85%D9%84%DB%8C-%D8%A7%D8%B2-%D8%A8%D9%87-%DA%A9%D8%A7%D8%B1%DA%AF%DB%8C%D8%B1%DB%8C-llm%D9%87%D8%A7-m8sr2xt1dhdk).
 
 
 ## How to use
@@ -38,7 +36,7 @@ Medium story introducing problem and devised solution. [Medium story](https://me
 
 **Train:**
 
-To finetune a new model, you can either create a new YAML configuration file with your specific parameters or modify an existing one. You'll find example configuration files in the src/train/ directory (**[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v1.yaml), **[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v2.yaml)). The default base model is NousResearch/Llama-2-7b-chat-hf, but you are free to change it. It's advisable to adjust the LoRA parameters accordingly if you do. Tailor other parameters to the needs of your task and dataset.
+To finetune a new model, you can either create a new YAML configuration file with your specific parameters or modify an existing one. You'll find example configuration files in the src/train/ directory (**[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v1.yaml), **[config](https://github.com/basalam/product-catalog-generator/blob/main/src/train/v2.yaml)). The default base model is `NousResearch/Llama-2-7b-chat-hf`, but you are free to change it. It's advisable to adjust the LoRA parameters accordingly if you do. Tailor other parameters to the needs of your task and dataset.
 
 To initiate finetuning, navigate to the src directory and start the process with:
 
