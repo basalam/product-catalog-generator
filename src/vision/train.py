@@ -5,7 +5,7 @@ from datasets import load_dataset
 from trl import SFTTrainer
 from huggingface_hub import login
 
-login(token='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')
+login(token='your-token')
 
 dataset_name = "BaSalam/vision-catalog-entity-color-v1"
 model_id = "llava-hf/llava-1.5-7b-hf"
