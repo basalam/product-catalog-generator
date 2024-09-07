@@ -1,6 +1,6 @@
 # Product catalog generator 
 
-This repo is the source code for a custom LLM fine tuned on [LLama 2](https://huggingface.co/docs/transformers/en/model_doc/llama2) based on [Basalam](https://basalam.com/) products to infer enitty (product types) and attributes based on product data. You can use it on any similar dataset.
+This repo is the source code for a custom LLM and VLM fine tuned on [LLama 2](https://huggingface.co/docs/transformers/en/model_doc/llama2) and [Llava1.5](https://huggingface.co/llava-hf/llava-1.5-7b-hf) based on [Basalam](https://basalam.com/) products to infer enitty (product types) and attributes based on product data. You can use it on any similar dataset.
 
 
 ## Datasets
@@ -10,6 +10,9 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 ### Dataset V2 generated using GPT-4
 [GPT-4 generated product data](https://huggingface.co/datasets/BaSalam/entity-attribute-sft-dataset-GPT-4.0-generated-v1)
 
+### Dataset for Vision catalog generated using GPT-4 (✅New)
+[GPT-4 generated product data](https://huggingface.co/datasets/BaSalam/vision-catalogs-llava-format-v3)
+
 ## Models
 
 ### Sft model version 1 based on llama 2 and GPT-3.5 data.
@@ -18,13 +21,16 @@ This repo is the source code for a custom LLM fine tuned on [LLama 2](https://hu
 ### Sft model version 2 based on llama 2 and GPT-4 data.
 [Model V2](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2)
 
+### Sft model based on Llava1.5 and GPT-4 data (✅New)
+[Model](https://huggingface.co/BaSalam/Llava-1.5-7b-hf-bslm-product-attributes-v0)
 
 ## Evaluation
 
-| model | train loss | val loss | download
-| --- | --- | --- | --- |
-| Model V1 | 0.07 | 0.08 | [Sft model version 1 based on llama 2 and GPT-3.5 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)
-| Model V2 | 0.1 | 0.12 | [Sft model version 2 based on llama 2 and GPT-4 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2) |
+| model    | train loss | val loss | download                                                                                                                          
+|----------|------------|----------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Model V1 | 0.07       | 0.08     | [Sft model version 1 based on llama 2 and GPT-3.5 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v1)                 
+| Model V2 | 0.1        | 0.12     | [Sft model version 2 based on llama 2 and GPT-4 data.](https://huggingface.co/BaSalam/Llama2-7b-entity-attr-v2)                   |
+| vision   | 0.11       | 0.13     | [Sft model based on llava1.5 and GPT-4 data.](https://huggingface.co/BaSalam/Llava-1.5-7b-hf-bslm-product-attributes-v0)          |
 
 ## Motivations
 
