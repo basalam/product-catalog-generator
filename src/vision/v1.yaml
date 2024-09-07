@@ -1,0 +1,22 @@
+max_seq_length: 384        # Integer: Maximum sequence length for model input
+dataset_name_or_path: "BaSalam/vision-catalogs-llava-format-v3"  # String: Path or identifier for the dataset
+model_name_or_path: "llava-hf/llava-1.5-7b-hf"  # String: Model identifier or path from Hugging Face Hub
+
+# Training configuration
+project_name: "llava-vision-catalogs-attributes"  # String: Project name for organization and output directories
+learning_rate: 0.00015                 # Float: Initial learning rate for the optimizer
+per_device_train_batch_size: 4        # Integer: Training batch size per device
+gradient_accumulation_steps: 4         # Integer: Number of steps to accumulate gradients before updating model weights
+save_steps: 2000                          # Integer: Number of steps between saving the model
+logging_steps: 10                      # Integer: Number of steps between logging training progress
+num_train_epochs: 2                    # Integer: Total number of training epochs
+weight_decay: 0.02                     # Float: Weight decay coefficient for regularization
+gradient_checkpointing: True           # Boolean: Whether to use gradient checkpointing to save memory
+fp16: False                            # Boolean: Whether to use 16-bit floating-point precision training
+bf16: True                            # Boolean: Whether to use bfloat16 precision training if supported
+torch_empty_cache_steps: 10
+
+# LoRA (Low-Rank Adaptation) specifications
+lora_rank: 64                         # Integer: Rank for the low-rank matrices in LoRA layers
+target_modules: [ "q_proj", "o_proj", "k_proj", "v_proj", "gate_proj", "up_proj", "down_proj" ]       # List: Specific modules to target for LoRA adaptation, None applies to all eligible
+lora_alpha: 128                        # Integer: Alpha parameter controlling the scale of LoRA adaptation
