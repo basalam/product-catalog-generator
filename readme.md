@@ -23,6 +23,9 @@ This repo is the source code for a custom LLM and VLM fine tuned on [LLama 2](ht
 
 ### Sft model based on Llava1.5 and GPT-4 data (✅New)
 [Model](https://huggingface.co/BaSalam/Llava-1.5-7b-hf-bslm-product-attributes-v0)
+### LoRA file for Vision Catalog
+[Model](https://huggingface.co/BaSalam/llava1.5-7b-bslm-products-vision-catalog-lora)
+
 
 ## Evaluation
 
